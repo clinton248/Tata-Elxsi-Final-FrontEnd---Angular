@@ -1,0 +1,46 @@
+<form (ngSubmit)="onSubmit(userform)" #userform="ngForm">
+<div class="container">
+    <h2>Tata Elxsi<span><i class="fa fa-linkedin-square" aria-hidden="true"></i></span></h2>
+    <div class="intro-text">
+        <h1>Sign in</h1>
+      
+    </div>
+    
+   
+    <div class="inputs">
+        <div class="input">
+            <input type="text" name="UserName"  ngModel required #UserName="ngModel"/>
+            <label for="UserName">
+                Username
+            </label>
+            <span *ngIf="!UserName.valid && UserName.touched"class="help-block">Please Enter Valid Username</span>
+        </div><br>
+        <div class="input">
+            <input type="password" name="Password"  ngModel required #Password="ngModel"/>
+            <label for="Password">
+                Password
+            </label>
+            <span *ngIf="!Password.valid && Password.touched" class="help-block">Password Field Cannot be Empty!</span>
+        </div>
+        <div *ngIf="LoginError"class="alert alert-danger" role="alert">
+            {{LoginError}}
+          </div>
+          <div *ngIf="ServerError"class="alert alert-danger" role="alert">
+            Something went wrong, Please try again!
+          </div>
+          <div *ngIf="AdminStatus"class="alert alert-danger" role="alert">
+
+            Admin Denied your Login !
+ 
+           </div>
+    </div>
+    <a  (click)="move_to_forgot_password()" class="forgot-pass-link">Forgot password?</a>
+    <button type="submit" [disabled]="!userform.valid"> Sign in <div *ngIf="LoadingSpinner"class="spinner-border spinner-border-sm text-light" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div></button>
+   
+    <p class="join-link">New to Tata Elxsi? <a (click)="move_to_register()">Join now</a></p>
+  </div>
+  
+</form>
+

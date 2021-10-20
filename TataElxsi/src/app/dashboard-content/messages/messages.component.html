@@ -1,0 +1,162 @@
+<!-- <head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
+        rel="stylesheet">
+
+</head> -->
+<div class="row" style="height:100%">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card" style="width: 100%x;">
+            <div class="card-header">Chats
+                <div>
+                    <img src="../../../assets/refresh.png" title="Refresh Chats" width="25" height="25" style="cursor: pointer;margin: 0px 0px 1px 4px;"
+                        (click)="refreshChat=true;getAllMessages();selectedChat=[];writeMsg=''">
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <!-- <button class="new_chat_btn" (click)="writeMsg =! writeMsg">
+                    <img src="../../../assets/newchat.png" width="30" height="30">
+                </button> -->
+                <p style="margin:0px;">New Chat</p>&nbsp;&nbsp;&nbsp;
+                <img src="../../../assets/newchat.png" title="Create New Chat" width="30" height="30" style="cursor: pointer;"
+                 (click)="writeMsg =! writeMsg;selectedChat=[];selectedInd='';sendMsg.to=''">
+                <!-- <button style="margin-left: 980px;" (click)="writeMsg =! writeMsg;selectedChat=[];selectedInd=''">New Chat</button> -->
+            </div>
+            <div class="chat" *ngIf="writeMsg">
+                <input class="ipbox" type="text" required placeholder="Enter Username to send message to"
+                (change)="checkEmailExists(msgTo)" [(ngModel)]="sendMsg.to" #msgTo="ngModel" >
+                <p *ngIf="(msgTo.touched || msgTo.dirty) && msgTo.invalid">Please Type Username.</p>
+                <p *ngIf="msgTo.valid && sendMsg.errorMsg">{{sendMsg.errorMsg}}</p>
+                <textarea class="txt" rows="4" cols="50" 
+                [placeholder]="sendMsg.errors? 'Message cannot be blank' : 'Type Message'"
+                [(ngModel)]="sendMsg.msg" #msgText="ngModel" minlength="1" required
+                (keyup.enter)="onSendMessage()">
+                </textarea>
+                <div [ngStyle]="{'margin-top':(msgTo.touched || msgTo.dirty) && msgTo.invalid ? '82px' : '150px' }"
+                 *ngIf="(msgText.touched || msgText.dirty) && msgText.invalid">
+                    <p>Message can't be blank.</p>
+                </div>
+                <button class="btn" [disabled]="msgText.invalid || msgTo.invalid" (click)="onSendMessage();">Send Message</button>
+                <button class="btn" *ngIf="msgText.invalid || msgTo.invalid || sendMsg.errorMsg" (click)="writeMsg = false">Cancel</button>
+            </div>
+
+            <!-- <h3 class=" text-center">Chatting</h3> -->
+            <!-- <div class="messaging"> -->
+                <div *ngIf="!messagesLoading&&(!messages || messages.length<=0)">
+                    <h2 style="margin:35px; font-family: inherit;">No Chats found, Start New Chat Above.</h2>
+                </div>
+                <div *ngIf="messagesLoading && !refreshChat">
+                    <h2 style="margin:35px; font-family: inherit;">Loading Chats Please Wait...</h2>
+                </div>
+
+                <div *ngIf="refreshChat && selectedChat.length<=0">
+                    <h2 style="margin:35px; font-family: inherit;">Refreshing Chats...</h2>
+                </div>
+
+            <div class="inbox_msg" *ngIf="messages.length>0">
+                <div class="inbox_people">
+                    <!-- <div class="headind_srch">
+                            <div class="recent_heading">
+                                <h4>Chats</h4>
+                            </div>
+                            <div class="srch_bar">
+                                <div class="stylish-input-group">
+                                    <input type="text" class="search-bar" placeholder="Search">
+                                    <span class="input-group-addon">
+                                        <button type="button"> <i class="fa fa-search" aria-hidden="true"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div> -->
+                    <div *ngIf="messages.length>0" class="inbox_chat_people">
+                        <div *ngFor="let chat of messages; let i=index"
+                            [ngClass]="selectedInd===i?'chat_list selected_chat':'chat_list active_chat'"
+                            style="cursor: pointer;" (click)="onChatSelect(chat,i)">
+                            <div class="chat_people">
+                                <div class="chat_img"> <img src="../../../assets/user.png" alt="User">
+                                </div>
+                                <div class="chat_ib">
+                                    <h5 [ngStyle]="{'color':selectedInd===i ? 'white' : '#464646' }">{{chat.name}} 
+                                        <span class="chat_date">{{chat.msgDate | date:'short'}}</span>
+                                    </h5>
+                                    <p [ngStyle]="{'color':selectedInd===i ? 'white' : '#464646' }">{{ (chat.msgText.length<25) ? chat.msgText : (chat.msgText | slice:0:25)+'...' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="inbox_chat">
+                    <div *ngIf="!writeMsg" id="scroll" #scroll class="msg_history">
+                        <!-- <div class="outgoing_msg">
+                                <div class="sent_msg">
+                                    <p>{{s.msg}}</p>
+                                    <span class="time_date"> {{s.date | date:'short'}}</span>
+                                </div>
+                            </div> -->
+                        <div *ngFor="let s of selectedChat; let i=index">
+
+                            <div [ngClass]="s.msgFrom==CurrentUser?'outgoing_msg':'incoming_msg'">
+                                <div *ngIf="s.msgFrom!=CurrentUser" class="incoming_msg_img"> <img src="../../../assets/user.png"
+                                        alt="sunil"> </div>
+                                <div [ngClass]="s.msgFrom==CurrentUser?'sent_msg':'received_msg received_withd_msg'">
+                                    <!-- <div class="received_withd_msg"> -->
+                                        <p *ngIf="!s.msgEdit" id="editMsg{{i}}">{{s.msgText}}</p>
+                                        <div *ngIf="s.msgEdit">
+                                            <textarea class="received_withd_msg_input" type="text" placeholder="Edit Message" value="{{s.msgText}}" [(ngModel)]="s.msgText" #msgText="ngModel" autofocus></textarea>
+                                            <button class="msg_edit_btn"(click)="onMessageEdit(s);s.msgEdit=''">
+                                                <img src="../../../assets/edit.png" width="30" height="30">
+                                            </button>
+                                        </div>
+                                    
+                                        <div *ngIf="s.msgFrom==CurrentUser">
+                                            <span *ngIf="!(s.edit || s.delete)" style="cursor: pointer" (click)="onEditRequest('dots',s)">...</span>
+                                            <a href="javascript:void(0);" *ngIf="s.edit && s.editTimeLimit > currentDate" (click)="onEditRequest('editbox',s)"> Edit</a>&nbsp;
+                                            <a href="javascript:void(0);" *ngIf="s.delete" (click)="onMessageDelete(s)"> Delete</a>&nbsp;
+                                            <span *ngIf="(s.edit || s.delete)" style="cursor: pointer" (click)="s.edit=''; s.delete=''; s.msgEdit=''">...</span>
+                                        </div>
+
+                                        <span class="time_date">{{s.msgDate | date:'medium'}}</span> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2 *ngIf="!writeMsg && selectedChat.length<=0 && !refreshChat"
+                            style="display:flex; font-family: inherit; align-items:center; justify-content: center; margin: 175px 0px 0px 0px;">
+                            Select chat to display messages</h2>
+                        
+                        <!-- <h2 *ngIf="refreshChat && selectedChat.length<=0"
+                            style="display:flex; font-family: inherit; align-items:center; justify-content: center; margin: 175px 0px 0px 0px;">
+                            Refreshing Chats...</h2> -->
+                        <!-- <div *ngIf="selectedChat.length === 0" class="received_msg" style="padding: 165px; background-color:white">
+                            <div>
+                                <form>
+                                    <input *ngIf="selectedChat.length === 0" name="to" style="height:40px; width:100%" type="text" class="write_msg" required placeholder="Enter Username to send message to" [(ngModel)]="sendMsg.to" #messagetosend="ngModel">
+                                </form>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="type_msg">
+                        <!--  *ngIf="selectedChat.length != 0" -->
+                        <div *ngIf="!writeMsg && selectedChat.length>0" class="input_msg_write">
+                            <input type="text" class="write_msg"
+                                [placeholder]="sendMsg.errors? 'Message cannot be blank' : 'Type Message'"
+                                [(ngModel)]="sendMsg.msg" #messagetosend="ngModel" minlength="1"
+                                (keyup.enter)="onSendMessage()" />
+                            <!-- <div *ngIf="sendMsg.errors==true;">
+                                <p *ngIf="sendMsg.errors==true;">Message can't be blank</p>
+                            </div> -->
+                            <button class="msg_send_btn" type="submit" (click)="onSendMessage()">
+                                <img src="../../../assets/msg.jpg" width="30" height="30">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- </div> -->
+        </div>
+    </div>
+</div>

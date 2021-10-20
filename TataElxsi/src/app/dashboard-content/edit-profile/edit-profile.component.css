@@ -1,0 +1,26 @@
+.container{
+    width: 1000px;
+    height: auto;
+    background: #fff;
+    box-shadow: 0 10px 15px rgba(179, 179, 179, 0.7);
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%,-50%);
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 2rem;
+}
+.btn:hover{
+    background: black;
+    outline: none;
+    border: none;
+    color: #fff;    
+}
+.input input.ng-touched.ng-invalid{
+    border: 1px solid red;
+   
+  
+}

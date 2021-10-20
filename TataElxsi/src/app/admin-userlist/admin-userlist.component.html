@@ -1,0 +1,69 @@
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"><div class="body">
+    <div class="app-page-title">
+        <!-- <h2>Personal Informations</h2> -->
+     </div>   
+    
+     <div class="row">
+         <div class="col-md-12">
+             <div class="main-card mb-3 card">
+                 <div class="card-header">User List
+                     <div class="btn-actions-pane-right">
+                         <div role="group" class="btn-group-sm btn-group">
+                             
+                            <!-- <button class="btn btn-focus">  <i class="metismenu-icon pe-7s-pen"></i> Edit</button>--->
+                         </div>
+                     </div>
+                 </div>
+                 <div class="table-responsive" style="padding-left:-5%;">
+                     <table class="align-middle table table-borderless">
+                         <thead>
+                         <tr>
+                             
+                             <th class="text-center">Username</th>
+                             <th class="text-center">Email</th>
+                             <th class="text-center">Continent</th>
+                             <th class="text-center">Country</th>
+                             <th class="text-center">Language</th>
+                             <th class="text-center">Address</th>
+                             <th class="text-center">Phone</th>
+                             <th class="tesxt-center">Enable/Disable</th>
+    
+                            
+                             
+                         </tr>
+                         </thead>
+                         <tbody>
+                         <tr *ngFor="let user of userdetails"  style="text-align: center;">
+                          
+                           <td >{{user.userName}}</td>
+                           <td>{{user.email}}</td>
+                           <td>{{user.continent}}</td>
+                           <td>{{user.country}}</td>
+                           <td>{{user.language}}</td>
+                           <td>{{user.address}}</td>
+                           <td>{{user.phoneNumber}}</td>
+                           <td >
+   
+ 
+                        
+                            <mat-slide-toggle (change)="onValChange(user.status, user.userName)" [checked]="user.status" ></mat-slide-toggle>
+                            
+                            
+            
+                        </td>
+                           
+                           
+                       
+                            
+                         </tr>
+                    
+                         
+                         </tbody>
+                     </table>
+                 </div>
+               
+             </div>
+         </div>
+     </div>
+    </div>

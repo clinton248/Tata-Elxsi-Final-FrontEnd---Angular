@@ -1,0 +1,123 @@
+<form (ngSubmit)="onSubmit(userform)" #userform="ngForm">
+    <div class="container">
+
+        <h2>Tata Elxsi<span><i class="fa fa-linkedin-square" aria-hidden="true"></i></span></h2>
+        <div class="intro-text">
+            <h1>Sign up</h1>
+           </div>
+        <b>Create an account!</b>
+       
+        <div class="inputs">
+            <div class="row">
+            
+                <div class="col">
+                     <div class="input">
+                        <input type="text" name="username"  ngModel required #username="ngModel"/>
+                        <label for="name">
+                            Username <span *ngIf="!username.valid && username.touched"class="help-block">Field Cannot be Empty!</span>
+                        </label>
+                       
+                    </div>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col">
+                    <div class="input">
+                        <input type="text" name="email"  ngModel required email #email="ngModel"/>
+                        <label for="email">
+                            <span *ngIf="!email.valid && email.touched"class="help-block">Please Enter Valid </span> Email
+                        </label>
+                        
+                    </div>
+                </div>
+              </div>
+
+            <div class="row">
+            
+                <div class="col">
+                    <div class="input">
+                        <input type="password" name="password"  ngModel required #password="ngModel"/>
+                        <label for="password">
+                            Password <span *ngIf="!password.valid && password.touched"class="help-block">Required!</span>
+                        </label>
+                        
+                    </div>
+                </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="col">
+                    <div class="input">
+                        <mat-form-field id="continent" appearance="fill">
+                            <!-- <label>Continent</label> -->
+                            <mat-label>Continent</mat-label>
+                            <mat-select [(value)]="userData.continent" [formControl]="cont">
+                                <mat-option  (click)="onContinentChange()" [value]="option" *ngFor="let option of continents">{{ option }}</mat-option>
+                            </mat-select>
+                            
+                        </mat-form-field>
+                        <!-- <mat-error style="margin-top: -38px; margin-left:10px;" *ngIf="!userData.continent && (cont.touched || cont.dirty)">Please select Continent.</mat-error> -->
+                        
+                    </div>
+                    <span style="margin-top: -38px; margin-left:0px; color:red" *ngIf="!userData.continent && (cont.touched || cont.dirty)">Please select Continent.</span>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col">
+                   
+                   <div class="input">
+                    <mat-form-field id="country" appearance="fill">
+                        <mat-label>Country</mat-label>
+                        <mat-select [(value)]="userData.country" [formControl]="country">
+                          <mat-option (click)="onCountryChange()" [value]="option.country" *ngFor="let option of countriesList">{{ option.country }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      
+                    </div>
+                    <span style="margin-top: -38px; margin-left:10px; color:red" *ngIf="!userData.continent && (country.touched || country.dirty)">Please select Continent First.</span>
+                    <span style="margin-top: -38px; margin-left:10px; color:red" *ngIf="userData.continent && !userData.country && (country.touched || country.dirty)">Please select country.</span>
+               
+                </div>
+              </div>
+              <div class="row">
+            
+                <div class="col">
+                    <div class="input">
+                        <mat-form-field id="language" appearance="fill">
+                            <mat-label>Language</mat-label>
+                            <mat-select [(value)]="userData.language" [formControl]="lang">
+                              <!-- <mat-option></mat-option> -->
+                              <mat-option [value]="option" *ngFor="let option of languagesList">{{ option }}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                    <span style="margin-top: -38px; margin-left:10px; color:red" *ngIf="!userData.country && (lang.touched || lang.dirty)">Please select Country First.</span>
+                    <span style="margin-top: -38px; margin-left:10px; color:red" *ngIf="userData.country && !userData.language && (lang.touched || lang.dirty)">Please select Language.</span>
+                    
+                </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="col">
+                    <div class="input">
+                        <input type="text" name="address"  ngModel required #address="ngModel"/>
+                        <label for="address">
+                            Address <span *ngIf="!address.valid && address.touched"class="help-block">Required!</span>
+                        </label>
+                        
+                    </div>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col">
+                   <div class="input">
+                        <input type="text" name="phone"  ngModel required #phone="ngModel"/>
+                        <label for="phone">
+                            Phone <span *ngIf="!phone.valid && phone.touched"class="help-block">Required!</span>
+                        </label>
+                       
+                    </div>
+                </div>
+              </div>
+        
+        </div>
+        <a  (click)="move_to_forgot_password()" class="forgot-pass-link">Forgot password?</a>
+        <div *ngIf="status"class="alert alert-success" role="alert">
+            Account Created Successfully! <a class="join-link" (click)="move_to_login()">Sign in</a>
+          </div>
+          <div *ngIf="ErrorStatus" class="alert alert-danger" role="alert">
+            {{StatusMessage}} 
+          </div>
+        <button type="submit" [disabled]="!userform.valid"> Register <div *ngIf="LoadingSpinner"class="spinner-border spinner-border-sm text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div></button>
+       
+        <p class="join-link">Registered User? <a (click)="move_to_login()">Sign in</a></p>
+      </div>
+    </form>

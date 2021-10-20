@@ -1,0 +1,57 @@
+<div class="body">
+<div class="app-page-title">
+    <h2>Personal Informations</h2>
+ </div>   
+
+ <div class="row">
+     <div class="col-md-12">
+         <div class="main-card mb-3 card">
+             <div class="card-header">Profile
+                 <div class="btn-actions-pane-right">
+                     <div role="group" class="btn-group-sm btn-group">
+                         
+                        <!-- <button class="btn btn-focus">  <i class="metismenu-icon pe-7s-pen"></i> Edit</button>--->
+                     </div>
+                 </div>
+             </div>
+             <div class="table-responsive">
+                 <table class="align-middle table table-borderless">
+                     <thead>
+                     <tr>
+                         
+                         <th class="text-center">Username</th>
+                         <th class="text-center">Email</th>
+                         <th class="text-center">Continent</th>
+                         <th class="text-center">Country</th>
+                         <th class="text-center">Language</th>
+                         <th class="text-center">Address</th>
+                         <th class="text-center">Phone</th>
+
+                        
+                         
+                     </tr>
+                     </thead>
+                     <tbody>
+                     <tr>
+                      
+                        <td class="text-center text-muted" *ngFor="let user of userdetails">{{user[0].userName}}</td>
+                        <td class="text-center text-muted" *ngFor="let user of userdetails">{{user[0].email}}</td>
+                        <td class="text-center text-muted" *ngFor="let user of userdetails">{{user[0].continent}}</td>
+                        <td class="text-center text-muted" *ngFor="let user of userdetails">{{user[0].country}}</td>
+                        <td class="text-center text-muted" *ngFor="let user of userdetails">{{user[0].language}}</td>
+                        <td class="text-center text-muted" *ngFor="let user of userdetails">{{user[0].address}}</td>
+                        <td class="text-center text-muted" *ngFor="let user of userdetails">{{user[0].phoneNumber}}</td>
+                        
+                   
+                        
+                     </tr>
+                
+                     
+                     </tbody>
+                 </table>
+             </div>
+           
+         </div>
+     </div>
+ </div>
+</div>

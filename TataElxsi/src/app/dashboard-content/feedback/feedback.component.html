@@ -1,0 +1,43 @@
+
+  <div class="container">
+    <form (ngSubmit)="onSubmit(feedbackform)" #feedbackform="ngForm">
+      <h3 *ngIf="RatingMessage">Thanks for your feedback!</h3>
+      <div *ngIf="RatingDiv">
+  <h3><b>Help us! Rate your experience</b></h3><hr>
+  
+  
+<div class="ratings">
+ 
+ 
+  <div class="rating-group">
+     
+      <label aria-label="1 star" class="label" for="rating-1"><i class="icon--star fa fa-star"></i></label>
+      <input class="rating" name="rating" id="rating-1" ngModel value="1" type="radio">
+      <label aria-label="2 stars" class="label" for="rating-2"><i class="icon--star fa fa-star"></i></label>
+      <input class="rating" name="rating" id="rating-2" ngModel value="2" type="radio">
+      <label aria-label="3 stars" class="label" for="rating-3"><i class="icon--star fa fa-star"></i></label>
+      <input class="rating" name="rating" id="rating-3" ngModel value="3" type="radio">
+      <label aria-label="4 stars" class="label" for="rating-4"><i class="icon--star fa fa-star"></i></label>
+      <input class="rating" name="rating" id="rating-4" ngModel value="4" type="radio">
+      <label aria-label="5 stars" class="label" for="rating-5"><i class="icon--star fa fa-star"></i></label>
+      <input class="rating" name="rating" id="rating-5" ngModel value="5" type="radio">
+  </div>
+
+</div><br><br>
+<label for="comments" style="text-align: left;">Comments
+<textarea  rows="4" cols="50" name="comments" ngModel id="comments">
+ 
+  </textarea>
+  </label>
+  <br>
+  <p>By clicking submit FeedBack, you acknoledge that you agree with Tata Elxsi Terms of Service and Privacy Policy</p>
+  <br>
+  <div *ngIf="Error"class="alert alert-danger" role="alert">
+    {{error}}
+  </div>
+  <button class="btn btn-primary" type="submit" >Submit FeedBack <div *ngIf="LoadingSpinner"class="spinner-border spinner-border-sm text-light" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div></button>
+</div>
+</form>
+</div>

@@ -1,0 +1,59 @@
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center row">
+        <div *ngIf="allFeedbacks.length<=0">
+            Loading feedbacks please wait...
+        </div>
+        <div *ngIf="allFeedbacks.length>0 && updateFeedbackSpinner">
+            Updating feedbacks please wait...
+        </div>
+        <div *ngIf="allFeedbacks.length<=0 && !updateFeedbackSpinner">
+            <h3>
+                No Feedbacks found !
+            </h3>
+        </div>
+        <div class="col-md-8" *ngIf="allFeedbacks.length>0">
+            <div class="d-flex flex-column comment-section" *ngFor="let feedback of allFeedbacks;let i = index">
+                <div class="bg-white p-2">
+                    <div class="d-flex flex-row user-info"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                        <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{feedback.userName}}</span><span class="date text-black-50">Shared on {{feedback.date | date:'short'}}</span></div>
+                    </div>
+                    <div class="mt-2">
+                        <p class="comment-text">{{ Errors.error ? Errors.prevRep : feedback.feedback}}</p>
+                    </div>
+                </div>
+
+                <div class="bg-white">
+                    <div class="d-flex flex-row fs-12">
+                        <div class="like p-2 cursor" (click)="currentInd=i;fieldName='edit'; editFeedback = true;replyFeedback = false;showBox=true"><i class="fa fa-edit"></i><span class="ml-1">Edit</span></div>
+                        <div class="like p-2 cursor" (click)="currentInd=i; fieldName='reply'; replyFeedback = true; editFeedback = false;showBox=true"><i class="fa fa-share"></i><span class="ml-1">Reply</span></div>
+                        <div class="like p-2 cursor" (click)="deleteFeedback(feedback)"><i class="fa fa-trash" ></i><span class="ml-1">Delete</span></div>
+                    </div>
+                </div>
+                <div class="bg-white p-2" *ngIf="feedback.reply" style="margin-left: 80px;">
+
+                    <div class="d-flex flex-row user-info"><img class="rounded-circle" src="https://icon-library.com/images/admin-icon-png/admin-icon-png-12.jpg" width="40">
+                        <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">Admin</span><span class="date text-black-50">Replied on {{feedback.replyDate | date:'short'}}</span></div>
+                    </div>
+                    <div class="mt-2">
+                        <p class="comment-text">{{feedback.reply}}</p>
+                    </div>
+                </div>
+
+                <div class="bg-light p-2" *ngIf="showBox">
+                    <div class="d-flex flex-row align-items-start" *ngIf="currentInd==i">
+                        <img class="rounded-circle" src="https://icon-library.com/images/admin-icon-png/admin-icon-png-12.jpg" width="40">
+                        <textarea *ngIf="editFeedback" name ="fbEdited" [(ngModel)]="fbEdited.reply" class="form-control ml-1 shadow-none textarea" placeholder="Edit this comment">
+                        </textarea>
+                        <textarea *ngIf="replyFeedback" name ="fbEdited" [(ngModel)]="fbEdited.reply" class="form-control ml-1 shadow-none textarea" placeholder="Reply to this comment">
+                        </textarea>
+                    </div>
+                    <div  *ngIf="currentInd==i" class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" (click)="onEditFeedback(fieldName, feedback,fbEdited,i); showBox = false; feedback.feedback=''" type="button">{{fieldName}} comment</button><button class="btn btn-outline-primary btn-sm ml-1 shadow-none" (click)="showBox=false" type="button">Cancel</button></div>
+                </div>
+                <div *ngIf="Errors.error && currentInd==i" style="color: red;">
+                    {{Errors.msg}}
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
